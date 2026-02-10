@@ -1,6 +1,8 @@
 package com.example.tictactoe.domain.usecase
 
+import com.example.tictactoe.domain.model.Cell
 import com.example.tictactoe.domain.model.MovementResult
+import com.example.tictactoe.domain.model.Player
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -8,7 +10,7 @@ import org.junit.Test
 class GamePlayUseCaseTest {
 
     private lateinit var gamePlayUseCase: GamePlayUseCase
-    private val board = List(3) { List(3) { "" } }
+    private val board = List(3) { List(3) { Cell() } }
 
     @Before
     fun setUp() {
@@ -50,7 +52,7 @@ class GamePlayUseCaseTest {
 
     @Test
     fun `Check when a cell is already occupied then return error`() {
-        val customBoard = List(3) { List(3) { "X" } }
+        val customBoard = List(3) { List(3) { Cell(Player.X) } }
         // Act
         val result = gamePlayUseCase.makeMove(0, 0, customBoard)
         // Assert
