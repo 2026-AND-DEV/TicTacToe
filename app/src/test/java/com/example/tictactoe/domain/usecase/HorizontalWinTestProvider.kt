@@ -96,4 +96,20 @@ object WinTestProvider {
                 Player.X
             )
         )
+
+
+    @JvmStatic
+    fun diagonalWinTestProvider(): List<Arguments> =
+        listOf(
+            // Row 0, col 0
+            Arguments.of(
+                listOf(
+                    listOf(Cell(), Cell(), Cell(Player.X)),
+                    listOf(Cell(Player.X), Cell(Player.O), Cell()),
+                    listOf(Cell(Player.X), Cell(), Cell(Player.O))
+                ),
+                0, 0,
+                Player.X
+            ),
+        )
 }
