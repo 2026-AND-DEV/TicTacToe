@@ -176,4 +176,23 @@ class GamePlayUseCaseTest {
         Assertions.assertEquals(GameResult.Win(player), finalResult.result)
     }
 
+    @Test
+    fun `Check when all cells are occupied and no one wins, return draw`() {
+        // Arrange
+        val customState = gameState.copy(
+            board = listOf(
+                listOf(Cell(Player.X), Cell(), Cell(Player.O)),
+                listOf(Cell(Player.O), Cell(Player.X), Cell(Player.X)),
+                listOf(Cell(Player.X), Cell(Player.X), Cell(Player.O))
+            ),
+            currentPlayer = Player.O
+        )
+        // Act
+        val result = gamePlayUseCase.makeMove(0, 1, customState)
+        // Assert
+        Assertions.assertTrue(result is MovementResult.Success)
+        val finalResult = (result as MovementResult.Success).gameState
+        Assertions.assertEquals(GameResult.Draw, finalResult.result)
+    }
+
 }

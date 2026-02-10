@@ -32,6 +32,13 @@ class GamePlayUseCase {
                     result = GameResult.Win(gameState.currentPlayer)
                 )
             )
+        } else if(isDraw(newBoard)) {
+            MovementResult.Success(
+                gameState.copy(
+                    board = newBoard,
+                    result = GameResult.Draw
+                )
+            )
         } else {
             MovementResult.Success(
                 gameState.copy(
@@ -66,5 +73,8 @@ class GamePlayUseCase {
         board.indices.all { index ->
             board[index][BOARD_SIZE - index - 1].isOccupiedBy(player)
         }
+
+    private fun isDraw(board: Board) =
+        board.all { row -> row.all { cell -> cell.isOccupied } }
 
 }
