@@ -1,5 +1,6 @@
 package com.example.tictactoe.domain.usecase
 
+import com.example.tictactoe.utils.INVALID_ROW_INDEX
 import org.junit.Assert
 import org.junit.Test
 
@@ -12,7 +13,7 @@ class GamePlayUseCaseTest {
         // Act
         val result = gamePlayUseCase.makeMove(-1)
         // Assert
-        Assert.assertEquals("Invalid row index", result)
+        Assert.assertEquals(INVALID_ROW_INDEX, result)
     }
 
     @Test
@@ -22,7 +23,7 @@ class GamePlayUseCaseTest {
         // Act
         val result = gamePlayUseCase.makeMove(3)
         // Assert
-        Assert.assertEquals("Invalid row index", result)
+        Assert.assertEquals(INVALID_ROW_INDEX, result)
     }
 
 }
