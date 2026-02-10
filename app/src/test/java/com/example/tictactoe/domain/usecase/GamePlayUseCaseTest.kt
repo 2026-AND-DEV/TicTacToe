@@ -1,6 +1,7 @@
 package com.example.tictactoe.domain.usecase
 
 import com.example.tictactoe.domain.model.Cell
+import com.example.tictactoe.domain.model.GameResult
 import com.example.tictactoe.domain.model.GameState
 import com.example.tictactoe.domain.model.MovementResult
 import com.example.tictactoe.domain.model.Player
@@ -17,7 +18,8 @@ class GamePlayUseCaseTest {
     fun setUp() {
         gameState = GameState(
             board = List(3) { List(3) { Cell() } },
-            currentPlayer = Player.X
+            currentPlayer = Player.X,
+            result = GameResult.InProgress
         )
         gamePlayUseCase = GamePlayUseCase()
     }
@@ -84,6 +86,25 @@ class GamePlayUseCaseTest {
         Assert.assertTrue(result is MovementResult.Success)
         val finalResult = (result as MovementResult.Success).gameState
         Assert.assertEquals(Player.O, finalResult.currentPlayer)
+    }
+
+    @Test
+    fun `Check when player wins horizontally on first row, return win`() {
+        // Arrange
+        val customState = gameState.copy(
+            board = listOf(
+                listOf(Cell(), Cell(Player.X), Cell(Player.X)),
+                listOf(Cell(), Cell(Player.O), Cell(Player.O)),
+                listOf(Cell(), Cell(), Cell())
+            ),
+            currentPlayer = Player.X
+        )
+        // Act
+        val result = gamePlayUseCase.makeMove(0, 0, customState)
+        // Assert
+        Assert.assertTrue(result is MovementResult.Success)
+        val finalResult = (result as MovementResult.Success).gameState
+        Assert.assertEquals(GameResult.Win(Player.X), finalResult.result)
     }
 
 }

@@ -1,6 +1,7 @@
 package com.example.tictactoe.domain.usecase
 
 import com.example.tictactoe.domain.model.Cell
+import com.example.tictactoe.domain.model.GameResult
 import com.example.tictactoe.domain.model.GameState
 import com.example.tictactoe.domain.model.MovementResult
 import com.example.tictactoe.utils.BOARD_SIZE
@@ -22,11 +23,21 @@ class GamePlayUseCase {
         }
         val newBoard = board.map { it.toMutableList() }
         newBoard[row][col] = Cell(gameState.currentPlayer)
-        return MovementResult.Success(
-            gameState.copy(
-                board = newBoard,
-                currentPlayer = currentPlayer.opponent()
+        return if (newBoard[0][0] == newBoard[0][1] && newBoard[0][1] == newBoard[0][2]) {
+            MovementResult.Success(
+                gameState.copy(
+                    board = newBoard,
+                    result = GameResult.Win(gameState.currentPlayer)
+                )
             )
-        )
+        } else {
+            MovementResult.Success(
+                gameState.copy(
+                    board = newBoard,
+                    currentPlayer = currentPlayer.opponent(),
+                    result = GameResult.InProgress
+                )
+            )
+        }
     }
 }
