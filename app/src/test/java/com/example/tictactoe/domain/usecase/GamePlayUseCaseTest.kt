@@ -109,7 +109,7 @@ class GamePlayUseCaseTest {
         // Assert
         Assertions.assertTrue(result is MovementResult.Success)
         val finalResult = (result as MovementResult.Success).gameState
-        Assertions.assertEquals(GameResult.Win(Player.X), finalResult.result)
+        Assertions.assertEquals(GameResult.Win(player), finalResult.result)
     }
 
 }
