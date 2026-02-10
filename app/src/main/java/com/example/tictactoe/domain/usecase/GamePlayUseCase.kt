@@ -43,6 +43,6 @@ class GamePlayUseCase {
         }
     }
     private fun isWin(row: Int,board: Board, player: Player) : Boolean {
-        return board[row].all{ it.player == player }
+        return board[row].all{ cell -> cell.isOccupiedBy(player) }
     }
 }
