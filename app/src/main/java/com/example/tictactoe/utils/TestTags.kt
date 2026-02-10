@@ -5,5 +5,6 @@ object TestTags {
     const val BOARD = "Board"
     const val CELL = "Cell"
     const val INFO_TEXT = "InfoText"
+    const val SNACKBAR = "Snackbar"
 
 }

@@ -23,7 +23,7 @@ class GameScreenAndtoidTest {
     val composeTestRule = createAndroidComposeRule<MainActivity>()
 
     @Before
-    fun setup(){
+    fun setup() {
         composeTestRule.activity.setContent {
             val navController = rememberNavController()
             TicTacToeTheme {
@@ -66,5 +66,16 @@ class GameScreenAndtoidTest {
         composeTestRule.onAllNodesWithTag(TestTags.CELL)[0].performClick()
         composeTestRule.onAllNodesWithTag(TestTags.CELL)[1].performClick()
         composeTestRule.onAllNodesWithTag(TestTags.CELL)[1].assertTextEquals("O")
+    }
+
+    @Test
+    fun `check is player win displayed on horizontal win`() {
+        composeTestRule.onAllNodesWithTag(TestTags.CELL)[0].performClick()
+        composeTestRule.onAllNodesWithTag(TestTags.CELL)[8].performClick()
+        composeTestRule.onAllNodesWithTag(TestTags.CELL)[1].performClick()
+        composeTestRule.onAllNodesWithTag(TestTags.CELL)[7].performClick()
+        composeTestRule.onAllNodesWithTag(TestTags.CELL)[2].performClick()
+        composeTestRule.onNodeWithTag(TestTags.INFO_TEXT).assertTextEquals("Player X won")
+        composeTestRule.onNodeWithTag(TestTags.SNACKBAR).assertIsDisplayed()
     }
 }
