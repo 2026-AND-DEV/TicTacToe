@@ -45,7 +45,8 @@ class GamePlayUseCase {
     private fun isWin(row: Int, col: Int, board: Board, player: Player) : Boolean {
         return isHorizontalWin(row, board, player) ||
                 isVerticalWin(col, board, player) ||
-                isDiagonalWin(board, player)
+                isDiagonalWin(board, player) ||
+                isAntiDiagonalWin(board, player)
     }
 
     private fun isHorizontalWin(row: Int, board: Board, player: Player) =
@@ -59,6 +60,11 @@ class GamePlayUseCase {
     private fun isDiagonalWin(board: Board, player: Player) =
         board.indices.all { index ->
             board[index][index].isOccupiedBy(player)
+        }
+
+    private fun isAntiDiagonalWin(board: Board, player: Player) =
+        board.indices.all { index ->
+            board[index][BOARD_SIZE - index - 1].isOccupiedBy(player)
         }
 
 }

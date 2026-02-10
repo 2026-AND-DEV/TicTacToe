@@ -132,4 +132,39 @@ object WinTestProvider {
                 Player.X
             )
         )
+
+    @JvmStatic
+    fun antiDiagonalWinTestProvider(): List<Arguments> =
+        listOf(
+            // Row 0, col 2
+            Arguments.of(
+                listOf(
+                    listOf(Cell(), Cell(), Cell()),
+                    listOf(Cell(Player.X), Cell(Player.X), Cell()),
+                    listOf(Cell(Player.X), Cell(), Cell(Player.O))
+                ),
+                0, 2,
+                Player.X
+            ),
+            // Row 1, col 1
+            Arguments.of(
+                listOf(
+                    listOf(Cell(), Cell(), Cell(Player.O)),
+                    listOf(Cell(), Cell(), Cell()),
+                    listOf(Cell(Player.O), Cell(), Cell(Player.X))
+                ),
+                1, 1,
+                Player.O
+            ),
+            // Row 2, col 0
+            Arguments.of(
+                listOf(
+                    listOf(Cell(Player.X), Cell(Player.O), Cell(Player.X)),
+                    listOf(Cell(), Cell(Player.X), Cell()),
+                    listOf(Cell(), Cell(Player.O), Cell()),
+                ),
+                2, 0,
+                Player.X
+            )
+        )
 }

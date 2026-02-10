@@ -155,4 +155,25 @@ class GamePlayUseCaseTest {
         Assertions.assertEquals(GameResult.Win(player), finalResult.result)
     }
 
+    @ParameterizedTest
+    @MethodSource("com.example.tictactoe.domain.usecase.WinTestProvider#antiDiagonalWinTestProvider")
+    fun `Check when player wins Anti diagonally, return win`(
+        board: Board,
+        row: Int,
+        col: Int,
+        player: Player
+    ) {
+        // Arrange
+        val customState = gameState.copy(
+            board = board,
+            currentPlayer = player
+        )
+        // Act
+        val result = gamePlayUseCase.makeMove(row, col, customState)
+        // Assert
+        Assertions.assertTrue(result is MovementResult.Success)
+        val finalResult = (result as MovementResult.Success).gameState
+        Assertions.assertEquals(GameResult.Win(player), finalResult.result)
+    }
+
 }
