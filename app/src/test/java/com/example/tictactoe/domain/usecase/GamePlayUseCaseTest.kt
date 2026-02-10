@@ -10,50 +10,12 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 
 class GamePlayUseCaseTest {
 
     private lateinit var gamePlayUseCase: GamePlayUseCase
     private lateinit var gameState: GameState
-    companion object {
-
-        @JvmStatic
-        fun horizontalWinProvider(): List<Arguments> =
-            listOf(
-                // Row 0
-                Arguments.of(
-                    listOf(
-                        listOf(Cell(), Cell(Player.X), Cell(Player.X)),
-                        listOf(Cell(), Cell(Player.O), Cell(Player.O)),
-                        listOf(Cell(), Cell(), Cell())
-                    ),
-                    0, 0
-                ),
-
-                // Row 1
-                Arguments.of(
-                    listOf(
-                        listOf(Cell(Player.O), Cell(), Cell()),
-                        listOf(Cell(), Cell(Player.X), Cell(Player.X)),
-                        listOf(Cell(Player.O), Cell(), Cell())
-                    ),
-                    1, 0
-                ),
-
-                // Row 2
-                Arguments.of(
-                    listOf(
-                        listOf(Cell(Player.O), Cell(), Cell()),
-                        listOf(Cell(), Cell(Player.O), Cell()),
-                        listOf(Cell(), Cell(Player.X), Cell(Player.X))
-                    ),
-                    2, 0
-                )
-            )
-    }
-
 
     @BeforeEach
     fun setUp() {
@@ -130,16 +92,17 @@ class GamePlayUseCaseTest {
     }
 
     @ParameterizedTest
-    @MethodSource("horizontalWinProvider")
+    @MethodSource("com.example.tictactoe.domain.usecase.WinTestProvider#horizontalWinTestProvider")
     fun `Check when player wins horizontally, return win`(
         board: Board,
         row: Int,
         col: Int,
+        player: Player
     ) {
         // Arrange
         val customState = gameState.copy(
             board = board,
-            currentPlayer = Player.X
+            currentPlayer = player
         )
         // Act
         val result = gamePlayUseCase.makeMove(row, col, customState)
