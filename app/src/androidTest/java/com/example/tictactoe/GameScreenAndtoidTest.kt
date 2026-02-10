@@ -60,4 +60,11 @@ class GameScreenAndtoidTest {
         composeTestRule.onAllNodesWithTag(TestTags.CELL)[0].performClick()
         composeTestRule.onNodeWithTag(TestTags.INFO_TEXT).assertTextEquals("O's turn to play")
     }
+
+    @Test
+    fun `check is players turn switched and updated on user clicks on empty cell`() {
+        composeTestRule.onAllNodesWithTag(TestTags.CELL)[0].performClick()
+        composeTestRule.onAllNodesWithTag(TestTags.CELL)[1].performClick()
+        composeTestRule.onAllNodesWithTag(TestTags.CELL)[1].assertTextEquals("O")
+    }
 }
