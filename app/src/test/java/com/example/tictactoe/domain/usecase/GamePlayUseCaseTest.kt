@@ -37,4 +37,14 @@ class GamePlayUseCaseTest {
         Assert.assertEquals(INVALID_COLUMN_INDEX, result)
     }
 
+    @Test
+    fun `Check when a col index is greater than maximum value then return error`() {
+        // Arrange
+        val gamePlayUseCase = GamePlayUseCase()
+        // Act
+        val result = gamePlayUseCase.makeMove(0, 3)
+        // Assert
+        Assert.assertEquals(INVALID_COLUMN_INDEX, result)
+    }
+
 }

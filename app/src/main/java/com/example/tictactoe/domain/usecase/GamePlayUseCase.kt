@@ -8,7 +8,7 @@ class GamePlayUseCase {
         if (row !in 0..2) {
             return INVALID_ROW_INDEX
         }
-        if (col < 0) {
+        if (col < 0 || col > 2) {
             return INVALID_COLUMN_INDEX
         }
         return ""
