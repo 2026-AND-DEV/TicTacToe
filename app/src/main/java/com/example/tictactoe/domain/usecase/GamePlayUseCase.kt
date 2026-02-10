@@ -2,7 +2,7 @@ package com.example.tictactoe.domain.usecase
 
 class GamePlayUseCase {
     fun makeMove(row: Int) : String {
-        if (row < 0) {
+        if (row < 0 || row > 2) {
             return "Invalid row index"
         }
         return ""
