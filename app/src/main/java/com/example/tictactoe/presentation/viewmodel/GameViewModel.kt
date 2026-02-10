@@ -5,6 +5,8 @@ import com.example.tictactoe.domain.model.GameResult
 import com.example.tictactoe.domain.model.GameState
 import com.example.tictactoe.domain.model.MovementResult
 import com.example.tictactoe.domain.usecase.GamePlayUseCase
+import com.example.tictactoe.utils.GAME_OVER_DRAW
+import com.example.tictactoe.utils.PLAYER_WON
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -41,11 +43,11 @@ class GameViewModel(private val gamePlayUseCase: GamePlayUseCase) : ViewModel() 
     private fun trySendEffect(gameState: GameState) {
         when (gameState.result) {
             is GameResult.Win -> {
-                _gameEffects.tryEmit(GameEffects.ShowSnackbar("Player ${gameState.result.player.name} won"))
+                _gameEffects.tryEmit(GameEffects.ShowSnackbar(String.format(PLAYER_WON, gameState.result.player.name)))
             }
 
             is GameResult.Draw -> {
-                _gameEffects.tryEmit(GameEffects.ShowSnackbar("Game Over - Draw"))
+                _gameEffects.tryEmit(GameEffects.ShowSnackbar(GAME_OVER_DRAW))
             }
 
             is GameResult.InProgress -> Unit
