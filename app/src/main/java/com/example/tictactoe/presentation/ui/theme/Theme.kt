@@ -1,4 +1,4 @@
-package com.example.tictactoe.ui.theme
+package com.example.tictactoe.presentation.ui.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
