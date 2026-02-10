@@ -8,6 +8,7 @@ import com.example.tictactoe.domain.model.MovementResult
 import com.example.tictactoe.domain.model.Player
 import com.example.tictactoe.utils.BOARD_SIZE
 import com.example.tictactoe.utils.CELL_ALREADY_OCCUPIED
+import com.example.tictactoe.utils.GAME_ALREADY_OVER
 import com.example.tictactoe.utils.INVALID_COLUMN_INDEX
 import com.example.tictactoe.utils.INVALID_ROW_INDEX
 
@@ -19,6 +20,9 @@ class GamePlayUseCase {
         }
         if (col !in 0..<BOARD_SIZE) {
             return MovementResult.Error(INVALID_COLUMN_INDEX)
+        }
+        if (result !is GameResult.InProgress) {
+            return MovementResult.Error(GAME_ALREADY_OVER)
         }
         if (board[row][col].isOccupied) {
             return MovementResult.Error(CELL_ALREADY_OCCUPIED)

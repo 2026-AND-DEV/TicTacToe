@@ -195,4 +195,16 @@ class GamePlayUseCaseTest {
         Assertions.assertEquals(GameResult.Draw, finalResult.result)
     }
 
+    @Test
+    fun `Check is game already over then return error`() {
+        // Arrange
+        val customState = gameState.copy(
+            result = GameResult.Win(Player.X)
+        )
+        // Act
+        val result = gamePlayUseCase.makeMove(0, 0, customState)
+        // Assert
+        Assertions.assertTrue(result is MovementResult.Error)
+    }
+
 }
