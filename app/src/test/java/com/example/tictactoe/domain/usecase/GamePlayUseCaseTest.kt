@@ -1,7 +1,6 @@
 package com.example.tictactoe.domain.usecase
 
-import com.example.tictactoe.utils.INVALID_COLUMN_INDEX
-import com.example.tictactoe.utils.INVALID_ROW_INDEX
+import com.example.tictactoe.domain.model.MovementResult
 import org.junit.Assert
 import org.junit.Test
 
@@ -14,7 +13,7 @@ class GamePlayUseCaseTest {
         // Act
         val result = gamePlayUseCase.makeMove(-1, 0)
         // Assert
-        Assert.assertEquals(INVALID_ROW_INDEX, result)
+        Assert.assertTrue(result is MovementResult.Error)
     }
 
     @Test
@@ -24,7 +23,7 @@ class GamePlayUseCaseTest {
         // Act
         val result = gamePlayUseCase.makeMove(3, 0)
         // Assert
-        Assert.assertEquals(INVALID_ROW_INDEX, result)
+        Assert.assertTrue(result is MovementResult.Error)
     }
 
     @Test
@@ -34,7 +33,7 @@ class GamePlayUseCaseTest {
         // Act
         val result = gamePlayUseCase.makeMove(0, -1)
         // Assert
-        Assert.assertEquals(INVALID_COLUMN_INDEX, result)
+        Assert.assertTrue(result is MovementResult.Error)
     }
 
     @Test
@@ -44,7 +43,7 @@ class GamePlayUseCaseTest {
         // Act
         val result = gamePlayUseCase.makeMove(0, 3)
         // Assert
-        Assert.assertEquals(INVALID_COLUMN_INDEX, result)
+        Assert.assertTrue(result is MovementResult.Error)
     }
 
 }
