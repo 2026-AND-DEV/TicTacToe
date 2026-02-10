@@ -7,13 +7,16 @@ import com.example.tictactoe.domain.model.MovementResult
 import com.example.tictactoe.domain.usecase.GamePlayUseCase
 import com.example.tictactoe.utils.GAME_OVER_DRAW
 import com.example.tictactoe.utils.PLAYER_WON
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import javax.inject.Inject
 
-class GameViewModel(private val gamePlayUseCase: GamePlayUseCase) : ViewModel() {
+@HiltViewModel
+class GameViewModel @Inject constructor(private val gamePlayUseCase: GamePlayUseCase) : ViewModel() {
     private val _gameState = MutableStateFlow(GameState.newGame())
     val gameState = _gameState.asStateFlow()
 

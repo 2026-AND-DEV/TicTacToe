@@ -10,8 +10,9 @@ import com.example.tictactoe.utils.BOARD_SIZE
 import com.example.tictactoe.utils.CELL_ALREADY_OCCUPIED
 import com.example.tictactoe.utils.GAME_ALREADY_OVER
 import com.example.tictactoe.utils.INVALID_INDEX
+import javax.inject.Inject
 
-class GamePlayUseCase {
+class GamePlayUseCase @Inject constructor() {
     fun makeMove(row: Int, col: Int, gameState: GameState)
             : MovementResult = with(gameState) {
         if (isOutOfBounds(row, col)) {
