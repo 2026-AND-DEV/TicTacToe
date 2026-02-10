@@ -54,4 +54,10 @@ class GameScreenAndtoidTest {
         composeTestRule.onAllNodesWithTag(TestTags.CELL)[0].performClick()
         composeTestRule.onAllNodesWithTag(TestTags.CELL)[0].assertTextEquals("X")
     }
+
+    @Test
+    fun `check is info text updates on user clicks on empty cell`() {
+        composeTestRule.onAllNodesWithTag(TestTags.CELL)[0].performClick()
+        composeTestRule.onNodeWithTag(TestTags.INFO_TEXT).assertTextEquals("O's turn to play")
+    }
 }
