@@ -131,4 +131,37 @@ class GameViewModelTest {
         }
     }
 
+    @Test
+    fun `Check on game reset intent value updated in game board`() = runBlocking {
+        // Arrange
+        every { gamePlayUseCase.makeMove(any(), any(), any()) } returns MovementResult.Success(
+            GameState(
+                board = listOf(
+                    listOf(Cell(Player.X), Cell(), Cell()),
+                    listOf(Cell(), Cell(), Cell()),
+                    listOf(Cell(), Cell(), Cell())
+                ),
+                currentPlayer = Player.O,
+                result = GameResult.InProgress
+            )
+        )
+
+        // Act
+        viewModel.gameState.test {
+            awaitItem()
+            viewModel.onIntent(GameIntents.MakeMove(0, 0))
+            val updatedGameState = awaitItem()
+            // Assert
+            verify { gamePlayUseCase.makeMove(0, 0, any()) }
+            Assertions.assertEquals(GameResult.InProgress, updatedGameState.result)
+            Assertions.assertEquals(Player.X, updatedGameState.board[0][0].player)
+            Assertions.assertEquals(Player.O, updatedGameState.currentPlayer)
+
+            viewModel.onIntent(GameIntents.ResetGame)
+            val resetGameState = awaitItem()
+            // Assert
+            Assertions.assertEquals(GameState.newGame(), resetGameState)
+
+        }
+    }
 }

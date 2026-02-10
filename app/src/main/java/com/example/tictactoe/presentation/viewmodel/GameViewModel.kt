@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
-class GameViewModel(private val gamePlayUseCase: GamePlayUseCase): ViewModel() {
+class GameViewModel(private val gamePlayUseCase: GamePlayUseCase) : ViewModel() {
     private val _gameState = MutableStateFlow(GameState.newGame())
     val gameState = _gameState.asStateFlow()
 
@@ -22,15 +22,17 @@ class GameViewModel(private val gamePlayUseCase: GamePlayUseCase): ViewModel() {
 
 
     fun onIntent(gameIntents: GameIntents) {
-        when (gameIntents){
+        when (gameIntents) {
             is GameIntents.MakeMove -> makeMove(gameIntents.row, gameIntents.col)
+            is GameIntents.ResetGame -> resetGame()
         }
     }
 
     private fun makeMove(row: Int, col: Int) {
-        when (val result = gamePlayUseCase.makeMove(row, col, _gameState.value)){
+        when (val result = gamePlayUseCase.makeMove(row, col, _gameState.value)) {
             is MovementResult.Error -> Unit
-            is MovementResult.Success -> { _gameState.update { result.gameState }
+            is MovementResult.Success -> {
+                _gameState.update { result.gameState }
                 trySendEffect(result.gameState)
             }
         }
@@ -41,10 +43,16 @@ class GameViewModel(private val gamePlayUseCase: GamePlayUseCase): ViewModel() {
             is GameResult.Win -> {
                 _gameEffects.tryEmit(GameEffects.ShowSnackbar("Player ${gameState.result.player.name} won"))
             }
+
             is GameResult.Draw -> {
                 _gameEffects.tryEmit(GameEffects.ShowSnackbar("Game Over - Draw"))
             }
+
             is GameResult.InProgress -> Unit
         }
+    }
+
+    private fun resetGame() {
+        _gameState.update { GameState.newGame() }
     }
 }
