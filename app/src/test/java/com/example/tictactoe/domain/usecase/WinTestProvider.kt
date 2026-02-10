@@ -111,5 +111,25 @@ object WinTestProvider {
                 0, 0,
                 Player.X
             ),
+            // Row 1, col 1
+            Arguments.of(
+                listOf(
+                    listOf(Cell(Player.O), Cell(Player.O), Cell()),
+                    listOf(Cell(), Cell(), Cell()),
+                    listOf(Cell(), Cell(), Cell(Player.O))
+                ),
+                1, 1,
+                Player.O
+            ),
+            // Row 2, col 2
+            Arguments.of(
+                listOf(
+                    listOf(Cell(Player.X), Cell(Player.O), Cell(Player.X)),
+                    listOf(Cell(), Cell(Player.X), Cell()),
+                    listOf(Cell(Player.O), Cell(Player.O), Cell()),
+                ),
+                2, 2,
+                Player.X
+            )
         )
 }
