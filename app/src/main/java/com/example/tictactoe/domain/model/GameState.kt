@@ -1,6 +1,6 @@
 package com.example.tictactoe.domain.model
 
 data class GameState(
-    val board: List<List<Cell>>,
+    val board: Board,
     val currentPlayer: Player
 )
