@@ -4,8 +4,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -18,10 +20,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.tictactoe.R
 import com.example.tictactoe.presentation.ui.components.TicTacToeBoard
+import com.example.tictactoe.presentation.ui.components.TicTacToeStatusText
 import com.example.tictactoe.presentation.viewmodel.GameViewModel
 import com.example.tictactoe.utils.TestTags
 
@@ -50,6 +54,8 @@ fun GameScreenUI(viewModel: GameViewModel = hiltViewModel()) {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
+                TicTacToeStatusText(gameState.currentPlayer, gameState.result)
+                Spacer(modifier = Modifier.height(16.dp))
                 TicTacToeBoard(gameState.board)
             }
         }

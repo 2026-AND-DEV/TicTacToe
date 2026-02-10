@@ -3,6 +3,7 @@ package com.example.tictactoe
 import androidx.activity.compose.setContent
 import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onNodeWithTag
@@ -39,5 +40,11 @@ class GameScreenAndtoidTest {
     fun `check is board is displayed on app launch`() {
         composeTestRule.onNodeWithTag(TestTags.BOARD).assertIsDisplayed()
         composeTestRule.onAllNodesWithTag(TestTags.CELL).assertCountEquals(BOARD_SIZE * BOARD_SIZE)
+    }
+
+    @Test
+    fun `check is player x turn displayed after app launch`() {
+        composeTestRule.onNodeWithTag(TestTags.INFO_TEXT).assertIsDisplayed()
+        composeTestRule.onNodeWithTag(TestTags.INFO_TEXT).assertTextEquals("X's turn to play")
     }
 }
