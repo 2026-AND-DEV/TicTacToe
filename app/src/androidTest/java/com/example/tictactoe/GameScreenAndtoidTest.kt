@@ -12,6 +12,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.tictactoe.presentation.ui.navigation.TicTacToeNavGraph
 import com.example.tictactoe.presentation.ui.theme.TicTacToeTheme
 import com.example.tictactoe.utils.BOARD_SIZE
+import com.example.tictactoe.utils.GAME_OVER_DRAW
 import com.example.tictactoe.utils.TestTags
 import org.junit.Before
 import org.junit.Rule
@@ -90,5 +91,21 @@ class GameScreenAndtoidTest {
         composeTestRule.onNodeWithTag(TestTags.INFO_TEXT).assertTextEquals("Player O won")
         composeTestRule.onNodeWithTag(TestTags.SNACKBAR).assertIsDisplayed()
     }
+
+    @Test
+    fun `check is game over draw displayed on draw and all cells are filled`() {
+        composeTestRule.onAllNodesWithTag(TestTags.CELL)[0].performClick()
+        composeTestRule.onAllNodesWithTag(TestTags.CELL)[1].performClick()
+        composeTestRule.onAllNodesWithTag(TestTags.CELL)[2].performClick()
+        composeTestRule.onAllNodesWithTag(TestTags.CELL)[4].performClick()
+        composeTestRule.onAllNodesWithTag(TestTags.CELL)[3].performClick()
+        composeTestRule.onAllNodesWithTag(TestTags.CELL)[5].performClick()
+        composeTestRule.onAllNodesWithTag(TestTags.CELL)[7].performClick()
+        composeTestRule.onAllNodesWithTag(TestTags.CELL)[6].performClick()
+        composeTestRule.onAllNodesWithTag(TestTags.CELL)[8].performClick()
+        composeTestRule.onNodeWithTag(TestTags.INFO_TEXT).assertTextEquals(GAME_OVER_DRAW)
+        composeTestRule.onNodeWithTag(TestTags.SNACKBAR).assertIsDisplayed()
+    }
+
 
 }
