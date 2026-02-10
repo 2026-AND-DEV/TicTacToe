@@ -14,19 +14,26 @@ import com.example.tictactoe.utils.BOARD_SIZE
 import com.example.tictactoe.utils.TestTags
 
 @Composable
-fun TicTacToeBoard(board: Board){
+fun TicTacToeBoard(
+    board: Board,
+    onclick: (Int, Int) -> Unit
+) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(BOARD_SIZE),
-        modifier = Modifier.fillMaxWidth().padding(16.dp).testTag(TestTags.BOARD)
-    ){
-        itemsIndexed(board.flatten()){ _, cell ->
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+            .testTag(TestTags.BOARD)
+    ) {
+        itemsIndexed(board.flatten()) { index, cell ->
+            val row = index / BOARD_SIZE
+            val column = index % BOARD_SIZE
             TicTacToeCell(
                 cell = cell,
                 onClick = {
-                    // Handle cell click
+                    onclick(row, column)
                 }
             )
-
         }
     }
 }

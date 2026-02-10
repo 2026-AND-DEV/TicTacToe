@@ -26,6 +26,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.tictactoe.R
 import com.example.tictactoe.presentation.ui.components.TicTacToeBoard
 import com.example.tictactoe.presentation.ui.components.TicTacToeStatusText
+import com.example.tictactoe.presentation.viewmodel.GameIntents
 import com.example.tictactoe.presentation.viewmodel.GameViewModel
 import com.example.tictactoe.utils.TestTags
 
@@ -56,7 +57,11 @@ fun GameScreenUI(viewModel: GameViewModel = hiltViewModel()) {
             ) {
                 TicTacToeStatusText(gameState.currentPlayer, gameState.result)
                 Spacer(modifier = Modifier.height(16.dp))
-                TicTacToeBoard(gameState.board)
+                TicTacToeBoard(gameState.board) { row, column ->
+                    viewModel.onIntent(
+                        GameIntents.MakeMove(row, column)
+                    )
+                }
             }
         }
     }

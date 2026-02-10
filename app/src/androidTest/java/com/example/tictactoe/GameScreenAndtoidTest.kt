@@ -7,6 +7,7 @@ import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.performClick
 import androidx.navigation.compose.rememberNavController
 import com.example.tictactoe.presentation.ui.navigation.TicTacToeNavGraph
 import com.example.tictactoe.presentation.ui.theme.TicTacToeTheme
@@ -46,5 +47,11 @@ class GameScreenAndtoidTest {
     fun `check is player x turn displayed after app launch`() {
         composeTestRule.onNodeWithTag(TestTags.INFO_TEXT).assertIsDisplayed()
         composeTestRule.onNodeWithTag(TestTags.INFO_TEXT).assertTextEquals("X's turn to play")
+    }
+
+    @Test
+    fun `check is cell updates on user clicks on empty cell`() {
+        composeTestRule.onAllNodesWithTag(TestTags.CELL)[0].performClick()
+        composeTestRule.onAllNodesWithTag(TestTags.CELL)[0].assertTextEquals("X")
     }
 }
