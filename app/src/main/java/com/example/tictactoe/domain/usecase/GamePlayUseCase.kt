@@ -25,7 +25,7 @@ class GamePlayUseCase {
         }
         val newBoard = board.map { it.toMutableList() }
         newBoard[row][col] = Cell(gameState.currentPlayer)
-        return if (isWin(row, newBoard, currentPlayer)) {
+        return if (isWin(row, col, newBoard, currentPlayer)) {
             MovementResult.Success(
                 gameState.copy(
                     board = newBoard,
@@ -42,7 +42,17 @@ class GamePlayUseCase {
             )
         }
     }
-    private fun isWin(row: Int,board: Board, player: Player) : Boolean {
-        return board[row].all{ cell -> cell.isOccupiedBy(player) }
+    private fun isWin(row: Int, col: Int, board: Board, player: Player) : Boolean {
+        return isHorizontalWin(row, board, player) ||
+                isVerticalWin(col, board, player)
     }
+
+    private fun isHorizontalWin(row: Int, board: Board, player: Player) =
+        board[row].all { cell -> cell.isOccupiedBy(player) }
+
+    private fun isVerticalWin(col: Int, board: Board, player: Player) =
+        board.indices.all { row ->
+            board[row][col].isOccupiedBy(player)
+        }
+
 }

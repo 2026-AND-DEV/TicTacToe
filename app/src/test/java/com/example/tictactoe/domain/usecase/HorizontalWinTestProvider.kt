@@ -61,4 +61,39 @@ object WinTestProvider {
                 Player.O
             )
         )
+
+    @JvmStatic
+    fun verticalWinTestProvider(): List<Arguments> =
+        listOf(
+            // Row 0, col 0
+            Arguments.of(
+                listOf(
+                    listOf(Cell(), Cell(), Cell(Player.X)),
+                    listOf(Cell(Player.X), Cell(Player.O), Cell(Player.O)),
+                    listOf(Cell(Player.X), Cell(), Cell())
+                ),
+                0, 0,
+                Player.X
+            ),
+            // Row 1, col 1
+            Arguments.of(
+                listOf(
+                    listOf(Cell(), Cell(Player.O), Cell()),
+                    listOf(Cell(Player.O), Cell(), Cell()),
+                    listOf(Cell(), Cell(Player.O), Cell(Player.X))
+                ),
+                1, 1,
+                Player.O
+            ),
+            // Row 2, col 2
+            Arguments.of(
+                listOf(
+                    listOf(Cell(), Cell(Player.O), Cell(Player.X)),
+                    listOf(Cell(), Cell(Player.X), Cell(Player.X)),
+                    listOf(Cell(Player.O), Cell(Player.O), Cell()),
+                ),
+                2, 2,
+                Player.X
+            )
+        )
 }
