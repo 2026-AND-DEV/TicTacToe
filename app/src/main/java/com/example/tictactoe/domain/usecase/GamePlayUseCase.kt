@@ -9,17 +9,13 @@ import com.example.tictactoe.domain.model.Player
 import com.example.tictactoe.utils.BOARD_SIZE
 import com.example.tictactoe.utils.CELL_ALREADY_OCCUPIED
 import com.example.tictactoe.utils.GAME_ALREADY_OVER
-import com.example.tictactoe.utils.INVALID_COLUMN_INDEX
-import com.example.tictactoe.utils.INVALID_ROW_INDEX
+import com.example.tictactoe.utils.INVALID_INDEX
 
 class GamePlayUseCase {
     fun makeMove(row: Int, col: Int, gameState: GameState)
             : MovementResult = with(gameState) {
-        if (row !in 0..<BOARD_SIZE) {
-            return MovementResult.Error(INVALID_ROW_INDEX)
-        }
-        if (col !in 0..<BOARD_SIZE) {
-            return MovementResult.Error(INVALID_COLUMN_INDEX)
+        if (isOutOfBounds(row, col)) {
+            return MovementResult.Error(INVALID_INDEX)
         }
         if (result !is GameResult.InProgress) {
             return MovementResult.Error(GAME_ALREADY_OVER)
@@ -29,31 +25,42 @@ class GamePlayUseCase {
         }
         val newBoard = board.map { it.toMutableList() }
         newBoard[row][col] = Cell(gameState.currentPlayer)
-        return if (isWin(row, col, newBoard, currentPlayer)) {
-            MovementResult.Success(
-                gameState.copy(
-                    board = newBoard,
-                    result = GameResult.Win(gameState.currentPlayer)
+        return when {
+            isWin(row, col, newBoard, currentPlayer) -> {
+                MovementResult.Success(
+                    gameState.copy(
+                        board = newBoard,
+                        result = GameResult.Win(gameState.currentPlayer)
+                    )
                 )
-            )
-        } else if(isDraw(newBoard)) {
-            MovementResult.Success(
-                gameState.copy(
-                    board = newBoard,
-                    result = GameResult.Draw
+            }
+
+            isDraw(newBoard) -> {
+                MovementResult.Success(
+                    gameState.copy(
+                        board = newBoard,
+                        result = GameResult.Draw
+                    )
                 )
-            )
-        } else {
-            MovementResult.Success(
-                gameState.copy(
-                    board = newBoard,
-                    currentPlayer = currentPlayer.opponent(),
-                    result = GameResult.InProgress
+            }
+
+            else -> {
+                MovementResult.Success(
+                    gameState.copy(
+                        board = newBoard,
+                        currentPlayer = currentPlayer.opponent(),
+                        result = GameResult.InProgress
+                    )
                 )
-            )
+            }
         }
     }
-    private fun isWin(row: Int, col: Int, board: Board, player: Player) : Boolean {
+
+    private fun isOutOfBounds(row: Int, col: Int): Boolean =
+        row !in 0..<BOARD_SIZE || col !in 0..<BOARD_SIZE
+
+
+    private fun isWin(row: Int, col: Int, board: Board, player: Player): Boolean {
         return isHorizontalWin(row, board, player) ||
                 isVerticalWin(col, board, player) ||
                 isDiagonalWin(board, player) ||
