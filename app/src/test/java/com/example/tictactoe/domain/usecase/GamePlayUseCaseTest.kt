@@ -1,20 +1,61 @@
 package com.example.tictactoe.domain.usecase
 
+import com.example.tictactoe.domain.model.Board
 import com.example.tictactoe.domain.model.Cell
 import com.example.tictactoe.domain.model.GameResult
 import com.example.tictactoe.domain.model.GameState
 import com.example.tictactoe.domain.model.MovementResult
 import com.example.tictactoe.domain.model.Player
-import org.junit.Assert
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.MethodSource
 
 class GamePlayUseCaseTest {
 
     private lateinit var gamePlayUseCase: GamePlayUseCase
     private lateinit var gameState: GameState
+    companion object {
 
-    @Before
+        @JvmStatic
+        fun horizontalWinProvider(): List<Arguments> =
+            listOf(
+                // Row 0
+                Arguments.of(
+                    listOf(
+                        listOf(Cell(), Cell(Player.X), Cell(Player.X)),
+                        listOf(Cell(), Cell(Player.O), Cell(Player.O)),
+                        listOf(Cell(), Cell(), Cell())
+                    ),
+                    0, 0
+                ),
+
+                // Row 1
+                Arguments.of(
+                    listOf(
+                        listOf(Cell(Player.O), Cell(), Cell()),
+                        listOf(Cell(), Cell(Player.X), Cell(Player.X)),
+                        listOf(Cell(Player.O), Cell(), Cell())
+                    ),
+                    1, 0
+                ),
+
+                // Row 2
+                Arguments.of(
+                    listOf(
+                        listOf(Cell(Player.O), Cell(), Cell()),
+                        listOf(Cell(), Cell(Player.O), Cell()),
+                        listOf(Cell(), Cell(Player.X), Cell(Player.X))
+                    ),
+                    2, 0
+                )
+            )
+    }
+
+
+    @BeforeEach
     fun setUp() {
         gameState = GameState(
             board = List(3) { List(3) { Cell() } },
@@ -30,7 +71,7 @@ class GamePlayUseCaseTest {
         // Act
         val result = gamePlayUseCase.makeMove(-1, 0, gameState)
         // Assert
-        Assert.assertTrue(result is MovementResult.Error)
+        Assertions.assertTrue(result is MovementResult.Error)
     }
 
     @Test
@@ -38,7 +79,7 @@ class GamePlayUseCaseTest {
         // Act
         val result = gamePlayUseCase.makeMove(3, 0, gameState)
         // Assert
-        Assert.assertTrue(result is MovementResult.Error)
+        Assertions.assertTrue(result is MovementResult.Error)
     }
 
     @Test
@@ -46,7 +87,7 @@ class GamePlayUseCaseTest {
         // Act
         val result = gamePlayUseCase.makeMove(0, -1, gameState)
         // Assert
-        Assert.assertTrue(result is MovementResult.Error)
+        Assertions.assertTrue(result is MovementResult.Error)
     }
 
     @Test
@@ -54,7 +95,7 @@ class GamePlayUseCaseTest {
         // Act
         val result = gamePlayUseCase.makeMove(0, 3, gameState)
         // Assert
-        Assert.assertTrue(result is MovementResult.Error)
+        Assertions.assertTrue(result is MovementResult.Error)
     }
 
     @Test
@@ -65,7 +106,7 @@ class GamePlayUseCaseTest {
         // Act
         val result = gamePlayUseCase.makeMove(0, 0, customState)
         // Assert
-        Assert.assertTrue(result is MovementResult.Error)
+        Assertions.assertTrue(result is MovementResult.Error)
     }
 
     @Test
@@ -73,9 +114,9 @@ class GamePlayUseCaseTest {
         // Act
         val result = gamePlayUseCase.makeMove(0, 0, gameState)
         // Assert
-        Assert.assertTrue(result is MovementResult.Success)
+        Assertions.assertTrue(result is MovementResult.Success)
         val finalResult = (result as MovementResult.Success).gameState
-        Assert.assertEquals(Player.X, finalResult.board[0][0].player)
+        Assertions.assertEquals(Player.X, finalResult.board[0][0].player)
     }
 
     @Test
@@ -83,28 +124,29 @@ class GamePlayUseCaseTest {
         // Act
         val result = gamePlayUseCase.makeMove(0, 0, gameState)
         // Assert
-        Assert.assertTrue(result is MovementResult.Success)
+        Assertions.assertTrue(result is MovementResult.Success)
         val finalResult = (result as MovementResult.Success).gameState
-        Assert.assertEquals(Player.O, finalResult.currentPlayer)
+        Assertions.assertEquals(Player.O, finalResult.currentPlayer)
     }
 
-    @Test
-    fun `Check when player wins horizontally on first row, return win`() {
+    @ParameterizedTest
+    @MethodSource("horizontalWinProvider")
+    fun `Check when player wins horizontally, return win`(
+        board: Board,
+        row: Int,
+        col: Int,
+    ) {
         // Arrange
         val customState = gameState.copy(
-            board = listOf(
-                listOf(Cell(), Cell(Player.X), Cell(Player.X)),
-                listOf(Cell(), Cell(Player.O), Cell(Player.O)),
-                listOf(Cell(), Cell(), Cell())
-            ),
+            board = board,
             currentPlayer = Player.X
         )
         // Act
-        val result = gamePlayUseCase.makeMove(0, 0, customState)
+        val result = gamePlayUseCase.makeMove(row, col, customState)
         // Assert
-        Assert.assertTrue(result is MovementResult.Success)
+        Assertions.assertTrue(result is MovementResult.Success)
         val finalResult = (result as MovementResult.Success).gameState
-        Assert.assertEquals(GameResult.Win(Player.X), finalResult.result)
+        Assertions.assertEquals(GameResult.Win(Player.X), finalResult.result)
     }
 
 }

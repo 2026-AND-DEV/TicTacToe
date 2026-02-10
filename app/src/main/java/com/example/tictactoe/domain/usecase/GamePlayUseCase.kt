@@ -1,9 +1,11 @@
 package com.example.tictactoe.domain.usecase
 
+import com.example.tictactoe.domain.model.Board
 import com.example.tictactoe.domain.model.Cell
 import com.example.tictactoe.domain.model.GameResult
 import com.example.tictactoe.domain.model.GameState
 import com.example.tictactoe.domain.model.MovementResult
+import com.example.tictactoe.domain.model.Player
 import com.example.tictactoe.utils.BOARD_SIZE
 import com.example.tictactoe.utils.CELL_ALREADY_OCCUPIED
 import com.example.tictactoe.utils.INVALID_COLUMN_INDEX
@@ -23,7 +25,7 @@ class GamePlayUseCase {
         }
         val newBoard = board.map { it.toMutableList() }
         newBoard[row][col] = Cell(gameState.currentPlayer)
-        return if (newBoard[0][0] == newBoard[0][1] && newBoard[0][1] == newBoard[0][2]) {
+        return if (isWin(row, newBoard, currentPlayer)) {
             MovementResult.Success(
                 gameState.copy(
                     board = newBoard,
@@ -39,5 +41,8 @@ class GamePlayUseCase {
                 )
             )
         }
+    }
+    private fun isWin(row: Int,board: Board, player: Player) : Boolean {
+        return board[row].all{ it.player == player }
     }
 }
