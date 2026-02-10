@@ -1,9 +1,11 @@
 package com.example.tictactoe.presentation.viewmodel
 
 import app.cash.turbine.test
+import com.example.tictactoe.domain.model.Cell
 import com.example.tictactoe.domain.model.GameResult
 import com.example.tictactoe.domain.model.GameState
 import com.example.tictactoe.domain.model.MovementResult
+import com.example.tictactoe.domain.model.Player
 import com.example.tictactoe.domain.usecase.GamePlayUseCase
 import com.example.tictactoe.utils.BOARD_SIZE
 import com.example.tictactoe.utils.INVALID_INDEX
@@ -48,6 +50,33 @@ class GameViewModelTest {
         viewModel.onIntent(GameIntents.MakeMove(-1, 0))
         // Assert
         verify { gamePlayUseCase.makeMove(-1,0, any()) }
+    }
+
+    @Test
+    fun `Check on  make move Intent value updated in game board`() = runBlocking {
+        // Arrange
+        every { gamePlayUseCase.makeMove(any(), any(), any()) } returns MovementResult.Success(
+            GameState(
+                board = listOf(
+                    listOf(Cell(Player.X), Cell(), Cell()),
+                    listOf(Cell(), Cell(), Cell()),
+                    listOf(Cell(), Cell(), Cell())
+                ),
+                currentPlayer = Player.O,
+                result = GameResult.InProgress
+            )
+        )
+        // Act
+        viewModel.gameState.test {
+            awaitItem()
+            viewModel.onIntent(GameIntents.MakeMove(0, 0))
+            val updatedGameState = awaitItem()
+            // Assert
+            verify { gamePlayUseCase.makeMove(0, 0, any()) }
+            Assertions.assertEquals(GameResult.InProgress, updatedGameState.result)
+            Assertions.assertEquals(Player.X, updatedGameState.board[0][0].player)
+            Assertions.assertEquals(Player.O, updatedGameState.currentPlayer)
+        }
     }
 
 }

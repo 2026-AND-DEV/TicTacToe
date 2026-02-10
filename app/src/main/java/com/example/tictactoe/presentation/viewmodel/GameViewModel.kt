@@ -6,6 +6,7 @@ import com.example.tictactoe.domain.model.MovementResult
 import com.example.tictactoe.domain.usecase.GamePlayUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
 class GameViewModel(private val gamePlayUseCase: GamePlayUseCase): ViewModel() {
     private val _gameState = MutableStateFlow(GameState.newGame())
@@ -20,7 +21,7 @@ class GameViewModel(private val gamePlayUseCase: GamePlayUseCase): ViewModel() {
     private fun makeMove(row: Int, col: Int) {
         when (val result = gamePlayUseCase.makeMove(row, col, _gameState.value)){
             is MovementResult.Error -> Unit
-            is MovementResult.Success -> Unit
+            is MovementResult.Success -> _gameState.update { result.gameState }
         }
     }
 }
