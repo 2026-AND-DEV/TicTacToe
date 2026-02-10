@@ -41,7 +41,9 @@ class GameViewModel(private val gamePlayUseCase: GamePlayUseCase): ViewModel() {
             is GameResult.Win -> {
                 _gameEffects.tryEmit(GameEffects.ShowSnackbar("Player ${gameState.result.player.name} won"))
             }
-            is GameResult.Draw -> Unit
+            is GameResult.Draw -> {
+                _gameEffects.tryEmit(GameEffects.ShowSnackbar("Game Over - Draw"))
+            }
             is GameResult.InProgress -> Unit
         }
     }

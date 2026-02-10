@@ -104,4 +104,31 @@ class GameViewModelTest {
         }
     }
 
+    @Test
+    fun `Check on  make move Intent value updated in game board and game draw`() = runBlocking {
+        // Arrange
+        every { gamePlayUseCase.makeMove(any(), any(), any()) } returns MovementResult.Success(
+            GameState(
+                board = listOf(
+                    listOf(Cell(Player.X), Cell(Player.O), Cell(Player.O)),
+                    listOf(Cell(Player.O), Cell(Player.X), Cell(Player.X)),
+
+                    listOf(Cell(Player.X), Cell(Player.X), Cell(Player.O))
+
+                ),
+                currentPlayer = Player.X,
+                result = GameResult.Draw
+            )
+        )
+        // Act
+        viewModel.gameEffects.test {
+            viewModel.onIntent(GameIntents.MakeMove(0, 0))
+            val updatedGameState = awaitItem()
+            // Assert
+            verify { gamePlayUseCase.makeMove(0, 0, any()) }
+            Assertions.assertEquals(GameEffects.ShowSnackbar("Game Over - Draw"), updatedGameState)
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
 }
