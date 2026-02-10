@@ -24,6 +24,7 @@ class GamePlayUseCase {
         return MovementResult.Success(
             gameState.copy(
                 board = newBoard,
+                currentPlayer = currentPlayer.opponent()
             )
         )
     }

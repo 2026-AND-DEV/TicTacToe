@@ -76,4 +76,14 @@ class GamePlayUseCaseTest {
         Assert.assertEquals(Player.X, finalResult.board[0][0].player)
     }
 
+    @Test
+    fun `Check when player moves, current player is updated`() {
+        // Act
+        val result = gamePlayUseCase.makeMove(0, 0, gameState)
+        // Assert
+        Assert.assertTrue(result is MovementResult.Success)
+        val finalResult = (result as MovementResult.Success).gameState
+        Assert.assertEquals(Player.O, finalResult.currentPlayer)
+    }
+
 }
