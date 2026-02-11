@@ -100,7 +100,7 @@ fun GameScreenUI(viewModel: GameViewModel = hiltViewModel()) {
                         viewModel.onIntent(GameIntents.ResetGame)
                     }
                 ) {
-                    Text(text = "Reset Game")
+                    Text(text = stringResource(R.string.reset_game))
                 }
             }
         }

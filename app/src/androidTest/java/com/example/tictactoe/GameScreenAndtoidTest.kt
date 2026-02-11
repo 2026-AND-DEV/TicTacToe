@@ -12,6 +12,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.tictactoe.presentation.ui.navigation.TicTacToeNavGraph
 import com.example.tictactoe.presentation.ui.theme.TicTacToeTheme
 import com.example.tictactoe.utils.BOARD_SIZE
+import com.example.tictactoe.utils.EMPTY_STRING
 import com.example.tictactoe.utils.GAME_OVER_DRAW
 import com.example.tictactoe.utils.TestTags
 import org.junit.Before
@@ -118,7 +119,7 @@ class GameScreenAndtoidTest {
         composeTestRule.onNodeWithTag(TestTags.INFO_TEXT).assertTextEquals("Player O won")
         composeTestRule.onNodeWithTag(TestTags.RESET_BUTTON).performClick()
         composeTestRule.onNodeWithTag(TestTags.INFO_TEXT).assertTextEquals("X's turn to play")
-        composeTestRule.onAllNodesWithTag(TestTags.CELL)[0].assertTextEquals("")
+        composeTestRule.onAllNodesWithTag(TestTags.CELL)[0].assertTextEquals(EMPTY_STRING)
     }
 
 
