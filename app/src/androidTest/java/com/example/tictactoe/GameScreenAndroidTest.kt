@@ -22,7 +22,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-class GameScreenAndtoidTest {
+class GameScreenAndroidTest {
 
     @get:Rule
     val composeTestRule = createAndroidComposeRule<MainActivity>()
