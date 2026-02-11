@@ -107,5 +107,19 @@ class GameScreenAndtoidTest {
         composeTestRule.onNodeWithTag(TestTags.SNACKBAR).assertIsDisplayed()
     }
 
+    @Test
+    fun `check is game is reset and cell are cleared on reset click`() {
+        composeTestRule.onAllNodesWithTag(TestTags.CELL)[0].performClick()
+        composeTestRule.onAllNodesWithTag(TestTags.CELL)[2].performClick()
+        composeTestRule.onAllNodesWithTag(TestTags.CELL)[1].performClick()
+        composeTestRule.onAllNodesWithTag(TestTags.CELL)[5].performClick()
+        composeTestRule.onAllNodesWithTag(TestTags.CELL)[3].performClick()
+        composeTestRule.onAllNodesWithTag(TestTags.CELL)[8].performClick()
+        composeTestRule.onNodeWithTag(TestTags.INFO_TEXT).assertTextEquals("Player O won")
+        composeTestRule.onNodeWithTag(TestTags.RESET_BUTTON).performClick()
+        composeTestRule.onNodeWithTag(TestTags.INFO_TEXT).assertTextEquals("X's turn to play")
+        composeTestRule.onAllNodesWithTag(TestTags.CELL)[0].assertTextEquals("")
+    }
+
 
 }
