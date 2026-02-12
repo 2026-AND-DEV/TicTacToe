@@ -131,5 +131,17 @@ class GameScreenAndroidTest {
         composeTestRule.onAllNodesWithTag(TestTags.CELL)[0].assertTextEquals(EMPTY_STRING)
     }
 
-
+    @Test
+    fun `check is empty cell not update after game is over`() {
+        val winMessage = String.format(PLAYER_WON, Player.O.name)
+        composeTestRule.onAllNodesWithTag(TestTags.CELL)[0].performClick()
+        composeTestRule.onAllNodesWithTag(TestTags.CELL)[2].performClick()
+        composeTestRule.onAllNodesWithTag(TestTags.CELL)[1].performClick()
+        composeTestRule.onAllNodesWithTag(TestTags.CELL)[5].performClick()
+        composeTestRule.onAllNodesWithTag(TestTags.CELL)[3].performClick()
+        composeTestRule.onAllNodesWithTag(TestTags.CELL)[8].performClick()
+        composeTestRule.onNodeWithTag(TestTags.INFO_TEXT).assertTextEquals(winMessage)
+        composeTestRule.onAllNodesWithTag(TestTags.CELL)[6].performClick()
+        composeTestRule.onAllNodesWithTag(TestTags.CELL)[6].assertTextEquals(EMPTY_STRING)
+    }
 }
