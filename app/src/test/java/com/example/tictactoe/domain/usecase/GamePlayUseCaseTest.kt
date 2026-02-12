@@ -82,13 +82,33 @@ class GamePlayUseCaseTest {
     }
 
     @Test
-    fun `Check when player moves, current player is updated`() {
+    fun `Check when player moves, current player is updated with Player X`() {
         // Act
         val result = gamePlayUseCase.makeMove(0, 0, gameState)
         // Assert
         Assertions.assertTrue(result is MovementResult.Success)
         val finalResult = (result as MovementResult.Success).gameState
         Assertions.assertEquals(Player.O, finalResult.currentPlayer)
+    }
+
+    @Test
+    fun `Check when player moves, current player is updated with player O`() {
+        // Arrange
+        val customState = gameState.copy(
+            board = listOf(
+                listOf(Cell(), Cell(Player.O), Cell()),
+                listOf(Cell(Player.O), Cell(), Cell(Player.O)),
+                listOf(Cell(), Cell(Player.X), Cell(Player.X))
+            ),
+            currentPlayer = Player.O
+        )
+        // Act
+        val result = gamePlayUseCase.makeMove(0, 0, customState)
+        // Assert
+        Assertions.assertTrue(result is MovementResult.Success)
+        val finalResult = (result as MovementResult.Success).gameState
+        Assertions.assertTrue(finalResult.result is GameResult.InProgress)
+        Assertions.assertEquals(Player.X, finalResult.currentPlayer)
     }
 
     @ParameterizedTest
