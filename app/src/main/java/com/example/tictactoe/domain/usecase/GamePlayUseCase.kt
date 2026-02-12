@@ -24,35 +24,36 @@ class GamePlayUseCase @Inject constructor() {
         if (board[row][col].isOccupied) {
             return MovementResult.Error(CELL_ALREADY_OCCUPIED)
         }
-        val newBoard = board.map { it.toMutableList() }
-        newBoard[row][col] = Cell(gameState.currentPlayer)
+        val updatedBoard = board.map { it.toMutableList() }.apply {
+            this[row][col] = Cell(currentPlayer)
+        }
+        val updatedResult = getGameResult(row, col, updatedBoard, currentPlayer)
+        val updatedPlayer = if (updatedResult is GameResult.InProgress) {
+            currentPlayer.opponent()
+        } else {
+            currentPlayer
+        }
+        return MovementResult.Success(
+            GameState(
+                board = updatedBoard,
+                currentPlayer = updatedPlayer,
+                result = updatedResult
+            )
+        )
+    }
+
+    private fun getGameResult(row: Int, col: Int, board: Board, currentPlayer: Player): GameResult {
         return when {
-            isWin(row, col, newBoard, currentPlayer) -> {
-                MovementResult.Success(
-                    gameState.copy(
-                        board = newBoard,
-                        result = GameResult.Win(gameState.currentPlayer)
-                    )
-                )
+            isWin(row, col, board, currentPlayer) -> {
+                GameResult.Win(currentPlayer)
             }
 
-            isDraw(newBoard) -> {
-                MovementResult.Success(
-                    gameState.copy(
-                        board = newBoard,
-                        result = GameResult.Draw
-                    )
-                )
+            isDraw(board) -> {
+                GameResult.Draw
             }
 
             else -> {
-                MovementResult.Success(
-                    gameState.copy(
-                        board = newBoard,
-                        currentPlayer = currentPlayer.opponent(),
-                        result = GameResult.InProgress
-                    )
-                )
+                GameResult.InProgress
             }
         }
     }
