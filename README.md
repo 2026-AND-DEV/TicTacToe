@@ -39,3 +39,9 @@ A Tic Tac Toe game built using Jetpack Compose, following Clean Architecture, MV
 Minimum SDK: API 30
 
 Target SDK: API 36
+
+## Screenshots
+
+| Intial State                                    | Game Win                                          | Game Draw                                          |
+|---------------------------------------------------------|-------------------------------------------------------|-------------------------------------------------------|
+| <img src="screenshots/screen1.jpg" width="200"> | <img src="screenshots/screen2.jpg" width="200"> | <img src="screenshots/screen3.jpg" width="200"> 
