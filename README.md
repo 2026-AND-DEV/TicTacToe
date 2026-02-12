@@ -15,11 +15,27 @@ A Tic Tac Toe game built using Jetpack Compose, following Clean Architecture, MV
 - Domain - Use Case + Models
 
 ## Tech Stack
+- MVVM, Clean architecture, TDD
 - Kotlin
 - Jetpack Compose
 - Navigation
-- MVVM + Clean architecture + TDD
 - Coroutines + Flow + ViewModel
 - Hilt - Dependency Injection
-- Unit tests - JUnit 5, MockK, Turbine
+- Unit tests - JUnit, MockK, Turbine
 - Instrumentation tests - Junit, Compose Test
+
+## How to run
+1. Open the latest version of Android Studio.
+2. Select "Get from Version Control" on the welcome screen or new project with "Project from Version Control".
+3. Clone the project using the repository link below:
+```
+   https://github.com/2026-AND-DEV/TicTacToe.git
+```
+4. Wait for the Gradle sync to complete.
+5. Click the Run button to launch the app on:
+   - An Android Emulator
+   - Or a connected physical device
+
+Minimum SDK: API 30
+
+Target SDK: API 36
