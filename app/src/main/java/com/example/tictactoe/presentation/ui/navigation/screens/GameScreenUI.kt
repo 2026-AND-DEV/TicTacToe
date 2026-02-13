@@ -79,7 +79,6 @@ fun GameScreenUI(viewModel: GameViewModel = hiltViewModel()) {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding),
-            contentAlignment = Alignment.Center
         ) {
             Column(
                 modifier = Modifier.fillMaxWidth(),
@@ -93,7 +92,7 @@ fun GameScreenUI(viewModel: GameViewModel = hiltViewModel()) {
                         GameIntents.MakeMove(row, column)
                     )
                 }
-                Spacer(modifier = Modifier.height(30.dp))
+                Spacer(modifier = Modifier.height(16.dp))
                 Button(
                     modifier = Modifier.testTag(TestTags.RESET_BUTTON),
                     onClick = {
