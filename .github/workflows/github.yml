@@ -59,6 +59,7 @@ jobs:
           path: app/build/reports/tests/testDebugUnitTest/
 
   instrumentation-test:
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: checkout
