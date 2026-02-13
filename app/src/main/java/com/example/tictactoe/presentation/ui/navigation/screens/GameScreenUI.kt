@@ -30,7 +30,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.compose.rememberLifecycleOwner
-import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.tictactoe.R
 import com.example.tictactoe.presentation.ui.components.TicTacToeBoard
 import com.example.tictactoe.presentation.ui.components.TicTacToeStatusText
@@ -48,15 +48,15 @@ fun GameScreenUI(viewModel: GameViewModel = hiltViewModel()) {
     val lifecycleOwner = rememberLifecycleOwner()
 
     LaunchedEffect(Unit) {
-        viewModel.gameEffects
-            .flowWithLifecycle(lifecycleOwner.lifecycle, Lifecycle.State.STARTED)
-            .collectLatest { effect ->
+        lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewModel.gameEffects.collectLatest { effect ->
                 when (effect) {
                     is GameEffects.ShowSnackbar -> {
                         snackbarHostState.showSnackbar(effect.message)
                     }
                 }
             }
+        }
     }
 
     Scaffold(
