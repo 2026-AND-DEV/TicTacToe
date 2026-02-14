@@ -14,8 +14,8 @@ import javax.inject.Inject
 
 class GamePlayUseCase @Inject constructor() {
     fun makeMove(row: Int, col: Int, gameState: GameState): MovementResult = with(gameState) {
-        val error = verifyMove(row, col, board, result)
-        if (error != null) return MovementResult.Error(error)
+        val validationError = validateMove(row, col, board, result)
+        if (validationError != null) return MovementResult.Error(validationError)
 
         val updatedBoard = board.map { it.toMutableList() }.apply {
             this[row][col] = Cell(currentPlayer)
@@ -34,7 +34,7 @@ class GamePlayUseCase @Inject constructor() {
         )
     }
 
-    private fun verifyMove(row: Int, col: Int, board: Board, result: GameResult): String? {
+    private fun validateMove(row: Int, col: Int, board: Board, result: GameResult): String? {
         return when {
             isOutOfBounds(row, col) -> INVALID_INDEX
 
