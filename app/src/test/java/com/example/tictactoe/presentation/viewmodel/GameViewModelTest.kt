@@ -47,7 +47,7 @@ class GameViewModelTest {
             INVALID_INDEX
         )
         // Act
-        viewModel.onIntent(GameIntents.MakeMove(-1, 0))
+        viewModel.onIntent(GameIntent.MakeMove(-1, 0))
         // Assert
         verify { gamePlayUseCase.makeMove(-1,0, any()) }
     }
@@ -69,7 +69,7 @@ class GameViewModelTest {
         // Act
         viewModel.gameState.test {
             awaitItem()
-            viewModel.onIntent(GameIntents.MakeMove(0, 0))
+            viewModel.onIntent(GameIntent.MakeMove(0, 0))
             val updatedGameState = awaitItem()
             // Assert
             verify { gamePlayUseCase.makeMove(0, 0, any()) }
@@ -95,7 +95,7 @@ class GameViewModelTest {
         )
         // Act
         viewModel.gameEffects.test {
-            viewModel.onIntent(GameIntents.MakeMove(0, 0))
+            viewModel.onIntent(GameIntent.MakeMove(0, 0))
             val updatedGameState = awaitItem()
             // Assert
             verify { gamePlayUseCase.makeMove(0, 0, any()) }
@@ -122,7 +122,7 @@ class GameViewModelTest {
         )
         // Act
         viewModel.gameEffects.test {
-            viewModel.onIntent(GameIntents.MakeMove(0, 0))
+            viewModel.onIntent(GameIntent.MakeMove(0, 0))
             val updatedGameState = awaitItem()
             // Assert
             verify { gamePlayUseCase.makeMove(0, 0, any()) }
@@ -149,7 +149,7 @@ class GameViewModelTest {
         // Act
         viewModel.gameState.test {
             awaitItem()
-            viewModel.onIntent(GameIntents.MakeMove(0, 0))
+            viewModel.onIntent(GameIntent.MakeMove(0, 0))
             val updatedGameState = awaitItem()
             // Assert
             verify { gamePlayUseCase.makeMove(0, 0, any()) }
@@ -157,7 +157,7 @@ class GameViewModelTest {
             Assertions.assertEquals(Player.X, updatedGameState.board[0][0].player)
             Assertions.assertEquals(Player.O, updatedGameState.currentPlayer)
 
-            viewModel.onIntent(GameIntents.ResetGame)
+            viewModel.onIntent(GameIntent.ResetGame)
             val resetGameState = awaitItem()
             // Assert
             Assertions.assertEquals(GameState.newGame(), resetGameState)

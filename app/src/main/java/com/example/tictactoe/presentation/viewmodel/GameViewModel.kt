@@ -26,10 +26,10 @@ class GameViewModel @Inject constructor(private val gamePlayUseCase: GamePlayUse
     val gameEffects = _gameEffects.asSharedFlow()
 
 
-    fun onIntent(gameIntents: GameIntents) {
-        when (gameIntents) {
-            is GameIntents.MakeMove -> makeMove(gameIntents.row, gameIntents.col)
-            is GameIntents.ResetGame -> resetGame()
+    fun onIntent(gameIntent: GameIntent) {
+        when (gameIntent) {
+            is GameIntent.MakeMove -> makeMove(gameIntent.row, gameIntent.col)
+            is GameIntent.ResetGame -> resetGame()
         }
     }
 

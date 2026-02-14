@@ -35,7 +35,7 @@ import com.example.tictactoe.R
 import com.example.tictactoe.presentation.ui.components.TicTacToeBoard
 import com.example.tictactoe.presentation.ui.components.TicTacToeStatusText
 import com.example.tictactoe.presentation.viewmodel.GameEffects
-import com.example.tictactoe.presentation.viewmodel.GameIntents
+import com.example.tictactoe.presentation.viewmodel.GameIntent
 import com.example.tictactoe.presentation.viewmodel.GameViewModel
 import com.example.tictactoe.utils.TestTags
 import kotlinx.coroutines.flow.collectLatest
@@ -89,14 +89,14 @@ fun GameScreenUI(viewModel: GameViewModel = hiltViewModel()) {
                 Spacer(modifier = Modifier.height(16.dp))
                 TicTacToeBoard(gameState.board) { row, column ->
                     viewModel.onIntent(
-                        GameIntents.MakeMove(row, column)
+                        GameIntent.MakeMove(row, column)
                     )
                 }
                 Spacer(modifier = Modifier.height(16.dp))
                 Button(
                     modifier = Modifier.testTag(TestTags.RESET_BUTTON),
                     onClick = {
-                        viewModel.onIntent(GameIntents.ResetGame)
+                        viewModel.onIntent(GameIntent.ResetGame)
                     }
                 ) {
                     Text(text = stringResource(R.string.reset_game))
