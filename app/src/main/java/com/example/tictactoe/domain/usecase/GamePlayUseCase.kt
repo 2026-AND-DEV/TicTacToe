@@ -13,17 +13,10 @@ import com.example.tictactoe.utils.INVALID_INDEX
 import javax.inject.Inject
 
 class GamePlayUseCase @Inject constructor() {
-    fun makeMove(row: Int, col: Int, gameState: GameState)
-            : MovementResult = with(gameState) {
-        if (isOutOfBounds(row, col)) {
-            return MovementResult.Error(INVALID_INDEX)
-        }
-        if (result !is GameResult.InProgress) {
-            return MovementResult.Error(GAME_ALREADY_OVER)
-        }
-        if (board[row][col].isOccupied) {
-            return MovementResult.Error(CELL_ALREADY_OCCUPIED)
-        }
+    fun makeMove(row: Int, col: Int, gameState: GameState): MovementResult = with(gameState) {
+        val error = verifyMove(row, col, board, result)
+        if (error != null) return MovementResult.Error(error)
+
         val updatedBoard = board.map { it.toMutableList() }.apply {
             this[row][col] = Cell(currentPlayer)
         }
@@ -33,34 +26,38 @@ class GamePlayUseCase @Inject constructor() {
         } else {
             currentPlayer
         }
+
         return MovementResult.Success(
             GameState(
-                board = updatedBoard,
-                currentPlayer = updatedPlayer,
-                result = updatedResult
+                board = updatedBoard, currentPlayer = updatedPlayer, result = updatedResult
             )
         )
     }
 
-    private fun getGameResult(row: Int, col: Int, board: Board, currentPlayer: Player): GameResult {
+    private fun verifyMove(row: Int, col: Int, board: Board, result: GameResult): String? {
         return when {
-            isWin(row, col, board, currentPlayer) -> {
-                GameResult.Win(currentPlayer)
-            }
+            isOutOfBounds(row, col) -> INVALID_INDEX
 
-            isDraw(board) -> {
-                GameResult.Draw
-            }
+            (result !is GameResult.InProgress) -> GAME_ALREADY_OVER
 
-            else -> {
-                GameResult.InProgress
-            }
+            board[row][col].isOccupied -> CELL_ALREADY_OCCUPIED
+
+            else -> null
         }
     }
 
     private fun isOutOfBounds(row: Int, col: Int): Boolean =
         row !in 0..<BOARD_SIZE || col !in 0..<BOARD_SIZE
 
+    private fun getGameResult(row: Int, col: Int, board: Board, currentPlayer: Player): GameResult {
+        return when {
+            isWin(row, col, board, currentPlayer) -> GameResult.Win(currentPlayer)
+
+            isDraw(board) -> GameResult.Draw
+
+            else -> GameResult.InProgress
+        }
+    }
 
     private fun isWin(row: Int, col: Int, board: Board, player: Player): Boolean {
         return isHorizontalWin(row, board, player) ||
