@@ -16,7 +16,8 @@ import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
-class GameViewModel @Inject constructor(private val gamePlayUseCase: GamePlayUseCase) : ViewModel() {
+class GameViewModel @Inject constructor(private val gamePlayUseCase: GamePlayUseCase) :
+    ViewModel() {
     private val _gameState = MutableStateFlow(GameState.newGame())
     val gameState = _gameState.asStateFlow()
 
@@ -46,7 +47,14 @@ class GameViewModel @Inject constructor(private val gamePlayUseCase: GamePlayUse
     private fun trySendEffect(gameState: GameState) {
         when (gameState.result) {
             is GameResult.Win ->
-                _gameEvent.tryEmit(GameEvent.ShowSnackbar(String.format(PLAYER_WON, gameState.result.player.name)))
+                _gameEvent.tryEmit(
+                    GameEvent.ShowSnackbar(
+                        String.format(
+                            PLAYER_WON,
+                            gameState.result.player.name
+                        )
+                    )
+                )
 
             is GameResult.Draw ->
                 _gameEvent.tryEmit(GameEvent.ShowSnackbar(GAME_OVER_DRAW))
