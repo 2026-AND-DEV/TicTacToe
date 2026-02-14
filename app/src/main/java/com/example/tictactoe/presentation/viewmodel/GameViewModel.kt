@@ -20,10 +20,10 @@ class GameViewModel @Inject constructor(private val gamePlayUseCase: GamePlayUse
     private val _gameState = MutableStateFlow(GameState.newGame())
     val gameState = _gameState.asStateFlow()
 
-    private val _gameEffects = MutableSharedFlow<GameEffects>(
+    private val _gameEvent = MutableSharedFlow<GameEvent>(
         extraBufferCapacity = 1
     )
-    val gameEffects = _gameEffects.asSharedFlow()
+    val gameEvent = _gameEvent.asSharedFlow()
 
 
     fun onIntent(gameIntent: GameIntent) {
@@ -45,13 +45,11 @@ class GameViewModel @Inject constructor(private val gamePlayUseCase: GamePlayUse
 
     private fun trySendEffect(gameState: GameState) {
         when (gameState.result) {
-            is GameResult.Win -> {
-                _gameEffects.tryEmit(GameEffects.ShowSnackbar(String.format(PLAYER_WON, gameState.result.player.name)))
-            }
+            is GameResult.Win ->
+                _gameEvent.tryEmit(GameEvent.ShowSnackbar(String.format(PLAYER_WON, gameState.result.player.name)))
 
-            is GameResult.Draw -> {
-                _gameEffects.tryEmit(GameEffects.ShowSnackbar(GAME_OVER_DRAW))
-            }
+            is GameResult.Draw ->
+                _gameEvent.tryEmit(GameEvent.ShowSnackbar(GAME_OVER_DRAW))
 
             is GameResult.InProgress -> Unit
         }

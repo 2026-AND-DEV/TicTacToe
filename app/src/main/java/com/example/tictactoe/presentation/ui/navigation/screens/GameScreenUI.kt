@@ -34,7 +34,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.example.tictactoe.R
 import com.example.tictactoe.presentation.ui.components.TicTacToeBoard
 import com.example.tictactoe.presentation.ui.components.TicTacToeStatusText
-import com.example.tictactoe.presentation.viewmodel.GameEffects
+import com.example.tictactoe.presentation.viewmodel.GameEvent
 import com.example.tictactoe.presentation.viewmodel.GameIntent
 import com.example.tictactoe.presentation.viewmodel.GameViewModel
 import com.example.tictactoe.utils.TestTags
@@ -49,9 +49,9 @@ fun GameScreenUI(viewModel: GameViewModel = hiltViewModel()) {
 
     LaunchedEffect(Unit) {
         lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-            viewModel.gameEffects.collectLatest { effect ->
+            viewModel.gameEvent.collectLatest { effect ->
                 when (effect) {
-                    is GameEffects.ShowSnackbar -> {
+                    is GameEvent.ShowSnackbar -> {
                         snackbarHostState.showSnackbar(effect.message)
                     }
                 }

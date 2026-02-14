@@ -94,12 +94,12 @@ class GameViewModelTest {
             )
         )
         // Act
-        viewModel.gameEffects.test {
+        viewModel.gameEvent.test {
             viewModel.onIntent(GameIntent.MakeMove(0, 0))
             val updatedGameState = awaitItem()
             // Assert
             verify { gamePlayUseCase.makeMove(0, 0, any()) }
-            Assertions.assertEquals(GameEffects.ShowSnackbar("Player X won"), updatedGameState)
+            Assertions.assertEquals(GameEvent.ShowSnackbar("Player X won"), updatedGameState)
             cancelAndIgnoreRemainingEvents()
         }
     }
@@ -121,12 +121,12 @@ class GameViewModelTest {
             )
         )
         // Act
-        viewModel.gameEffects.test {
+        viewModel.gameEvent.test {
             viewModel.onIntent(GameIntent.MakeMove(0, 0))
             val updatedGameState = awaitItem()
             // Assert
             verify { gamePlayUseCase.makeMove(0, 0, any()) }
-            Assertions.assertEquals(GameEffects.ShowSnackbar("Game Over - Draw"), updatedGameState)
+            Assertions.assertEquals(GameEvent.ShowSnackbar("Game Over - Draw"), updatedGameState)
             cancelAndIgnoreRemainingEvents()
         }
     }
