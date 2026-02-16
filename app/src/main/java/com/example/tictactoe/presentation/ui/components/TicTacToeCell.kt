@@ -16,10 +16,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tictactoe.domain.model.Cell
 import com.example.tictactoe.domain.model.Player
+import com.example.tictactoe.presentation.ui.theme.TicTacToeTheme
 import com.example.tictactoe.utils.TestTags
 
 @Composable
@@ -34,7 +36,7 @@ fun TicTacToeCell(cell: Cell, onClick: () -> Unit) {
             .testTag(TestTags.CELL)
             .clickable { onClick() },
         contentAlignment = Alignment.Center
-    ){
+    ) {
         Text(
             text = cell.player?.name.orEmpty(),
             style = MaterialTheme.typography.titleLarge.copy(
@@ -50,4 +52,12 @@ fun TicTacToeCell(cell: Cell, onClick: () -> Unit) {
         )
     }
 
+}
+
+@Preview
+@Composable
+fun TicTacToeCellPreview() {
+    TicTacToeTheme {
+        TicTacToeCell(Cell(Player.X), {})
+    }
 }
