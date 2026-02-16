@@ -7,9 +7,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.tictactoe.domain.model.GameResult
 import com.example.tictactoe.domain.model.Player
+import com.example.tictactoe.presentation.ui.theme.TicTacToeTheme
 import com.example.tictactoe.utils.GAME_OVER_DRAW
 import com.example.tictactoe.utils.PLAYER_WON
 import com.example.tictactoe.utils.TURN_TO_PLAY
@@ -30,4 +32,12 @@ fun TicTacToeStatusText(currentPlayer: Player, result: GameResult) {
             .testTag(TestTags.INFO_TEXT),
         style = MaterialTheme.typography.titleLarge
     )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun TicTacToeStatusTextPreview() {
+    TicTacToeTheme {
+        TicTacToeStatusText(Player.X, GameResult.InProgress)
+    }
 }
