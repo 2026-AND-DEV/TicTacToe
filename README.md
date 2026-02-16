@@ -35,10 +35,18 @@ A Tic Tac Toe game built using Jetpack Compose, following Clean Architecture, MV
 5. Click the Run button to launch the app on:
    - An Android Emulator
    - Or a connected physical device
-
-Minimum SDK: API 30
-
-Target SDK: API 36
+### How to run Test
+1. Open the project in Android Studio
+2. Navigate to:
+   app/src/test/
+3. Right-click the test folder.
+4. Select "Run"
+or Using Terminal with below command
+```
+   ./gradlew test
+```
+- Minimum SDK: API 30
+- Target SDK: API 36
 
 ## Screenshots
 
