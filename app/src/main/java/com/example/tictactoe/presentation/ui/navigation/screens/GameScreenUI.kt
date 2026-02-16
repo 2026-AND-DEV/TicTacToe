@@ -25,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
@@ -32,15 +33,19 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.compose.rememberLifecycleOwner
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.tictactoe.R
+import com.example.tictactoe.domain.model.Cell
+import com.example.tictactoe.domain.model.GameResult
+import com.example.tictactoe.domain.model.GameState
+import com.example.tictactoe.domain.model.Player
 import com.example.tictactoe.presentation.ui.components.TicTacToeBoard
 import com.example.tictactoe.presentation.ui.components.TicTacToeStatusText
+import com.example.tictactoe.presentation.ui.theme.TicTacToeTheme
 import com.example.tictactoe.presentation.viewmodel.GameEvent
 import com.example.tictactoe.presentation.viewmodel.GameIntent
 import com.example.tictactoe.presentation.viewmodel.GameViewModel
 import com.example.tictactoe.utils.TestTags
 import kotlinx.coroutines.flow.collectLatest
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GameScreenUI(viewModel: GameViewModel = hiltViewModel()) {
     val gameState by viewModel.gameState.collectAsStateWithLifecycle()
@@ -58,7 +63,20 @@ fun GameScreenUI(viewModel: GameViewModel = hiltViewModel()) {
             }
         }
     }
+    GameScreenContent(
+        gameState = gameState,
+        snackbarHostState = snackbarHostState,
+        onIntent = viewModel::onIntent
+    )
+}
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun GameScreenContent(
+    gameState: GameState,
+    snackbarHostState: SnackbarHostState,
+    onIntent: (GameIntent) -> Unit
+) {
     Scaffold(
         snackbarHost = {
             SnackbarHost(
@@ -88,7 +106,7 @@ fun GameScreenUI(viewModel: GameViewModel = hiltViewModel()) {
                 TicTacToeStatusText(gameState.currentPlayer, gameState.result)
                 Spacer(modifier = Modifier.height(16.dp))
                 TicTacToeBoard(gameState.board) { row, column ->
-                    viewModel.onIntent(
+                    onIntent(
                         GameIntent.MakeMove(row, column)
                     )
                 }
@@ -96,12 +114,33 @@ fun GameScreenUI(viewModel: GameViewModel = hiltViewModel()) {
                 Button(
                     modifier = Modifier.testTag(TestTags.RESET_BUTTON),
                     onClick = {
-                        viewModel.onIntent(GameIntent.ResetGame)
+                        onIntent(GameIntent.ResetGame)
                     }
                 ) {
                     Text(text = stringResource(R.string.reset_game))
                 }
             }
         }
+    }
+}
+
+@Preview
+@Composable
+fun GameScreenContentPreview() {
+    val gameState = GameState(
+        board = listOf(
+            listOf(Cell(Player.O), Cell(), Cell()),
+            listOf(Cell(), Cell(Player.O), Cell()),
+            listOf(Cell(), Cell(Player.X), Cell(Player.X))
+        ),
+        currentPlayer = Player.X,
+        result = GameResult.InProgress
+    )
+
+    TicTacToeTheme {
+        GameScreenContent(
+            gameState,
+            snackbarHostState = remember { SnackbarHostState() },
+            onIntent = {})
     }
 }

@@ -13,6 +13,5 @@ fun TicTacToeNavGraph(navController: NavHostController = rememberNavController()
         composable<Screens.GameScreen>{
             GameScreenUI()
         }
-
     }
 }
