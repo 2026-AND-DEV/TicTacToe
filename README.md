@@ -45,6 +45,17 @@ or Using Terminal with below command
 ```
    ./gradlew test
 ```
+### How to run Instrumentation Test
+1. Open the project in Android Studio
+2. Navigate to:
+   app/src/AndroidTest/
+3. Prepare Emulator or Real Device
+4. Right-click the test folder.
+5. Select "Run"
+or Using Terminal with below command
+```
+   ./gradlew connectedAndroidTest
+```
 - Minimum SDK: API 30
 - Target SDK: API 36
 
