@@ -29,7 +29,7 @@ A Tic Tac Toe game built using Jetpack Compose, following Clean Architecture, MV
 2. Select "Get from Version Control" on the welcome screen or new project with "Project from Version Control".
 3. Clone the project using the repository link below:
 ```
-   https://github.com/2026-AND-DEV/TicTacToe.git
+   https://github.com/2026-DEV2-033/TicTacToe.git
 ```
 4. Wait for the Gradle sync to complete.
 5. Click the Run button to launch the app on:
