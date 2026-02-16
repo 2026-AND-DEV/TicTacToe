@@ -8,8 +8,12 @@ import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.tictactoe.domain.model.Board
+import com.example.tictactoe.domain.model.Cell
+import com.example.tictactoe.domain.model.Player
+import com.example.tictactoe.presentation.ui.theme.TicTacToeTheme
 import com.example.tictactoe.utils.BOARD_SIZE
 import com.example.tictactoe.utils.TestTags
 
@@ -35,5 +39,18 @@ fun TicTacToeBoard(
                 }
             )
         }
+    }
+}
+
+@Preview
+@Composable
+fun TicTacToeBoardPreview() {
+    val board = listOf(
+        listOf(Cell(Player.O), Cell(), Cell()),
+        listOf(Cell(), Cell(Player.O), Cell()),
+        listOf(Cell(), Cell(Player.X), Cell(Player.X))
+    )
+    TicTacToeTheme {
+        TicTacToeBoard(board, { _, _ -> })
     }
 }
