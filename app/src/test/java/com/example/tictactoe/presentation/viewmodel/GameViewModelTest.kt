@@ -8,7 +8,7 @@ import com.example.tictactoe.domain.model.MovementResult
 import com.example.tictactoe.domain.model.Player
 import com.example.tictactoe.domain.usecase.GamePlayUseCase
 import com.example.tictactoe.utils.BOARD_SIZE
-import com.example.tictactoe.utils.INVALID_INDEX
+import com.example.tictactoe.utils.INVALID_MOVE
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -44,7 +44,7 @@ class GameViewModelTest {
     fun `Check is make move intent is calling gameplay usecase and return error`() {
         // Arrange
         every { gamePlayUseCase.makeMove(-1, 0, any()) } returns MovementResult.Error(
-            INVALID_INDEX
+            INVALID_MOVE
         )
         // Act
         viewModel.onIntent(GameIntent.MakeMove(-1, 0))

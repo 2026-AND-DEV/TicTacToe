@@ -7,15 +7,13 @@ import com.example.tictactoe.domain.model.GameState
 import com.example.tictactoe.domain.model.MovementResult
 import com.example.tictactoe.domain.model.Player
 import com.example.tictactoe.utils.BOARD_SIZE
-import com.example.tictactoe.utils.CELL_ALREADY_OCCUPIED
-import com.example.tictactoe.utils.GAME_ALREADY_OVER
-import com.example.tictactoe.utils.INVALID_INDEX
+import com.example.tictactoe.utils.INVALID_MOVE
 import javax.inject.Inject
 
 class GamePlayUseCase @Inject constructor() {
     fun makeMove(row: Int, col: Int, gameState: GameState): MovementResult = with(gameState) {
-        val validationError = validateMove(row, col, board, result)
-        if (validationError != null) return MovementResult.Error(validationError)
+        val isValidMove = validateMove(row, col, board, result)
+        if (!isValidMove) return MovementResult.Error(INVALID_MOVE)
 
         val updatedBoard = board.map { it.toMutableList() }.apply {
             this[row][col] = Cell(currentPlayer)
@@ -34,15 +32,15 @@ class GamePlayUseCase @Inject constructor() {
         )
     }
 
-    private fun validateMove(row: Int, col: Int, board: Board, result: GameResult): String? {
+    private fun validateMove(row: Int, col: Int, board: Board, result: GameResult): Boolean {
         return when {
-            isOutOfBounds(row, col) -> INVALID_INDEX
+            isOutOfBounds(row, col) -> false
 
-            (result !is GameResult.InProgress) -> GAME_ALREADY_OVER
+            (result !is GameResult.InProgress) -> false
 
-            board[row][col].isOccupied -> CELL_ALREADY_OCCUPIED
+            board[row][col].isOccupied -> false
 
-            else -> null
+            else -> true
         }
     }
 
